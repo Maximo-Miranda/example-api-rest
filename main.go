@@ -27,7 +27,7 @@ func main(){
 	}
 
 	if err := migratations.UpMigrations(); err != nil {
-		panic(err)
+		fmt.Println(err)
 	}
 
 	routes := r.Router()

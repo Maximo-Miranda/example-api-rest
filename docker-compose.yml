@@ -1,0 +1,24 @@
+version: '3'
+services:
+  db:
+    container_name: postgresql
+    image: postgres:10
+    environment:
+      POSTGRES_PASSWORD: secret
+    volumes:
+      - $PWD/data:/var/lib/postgresql/data
+    networks:
+      - apirest_network
+  example-api-rest:
+    depends_on:
+      - db
+    restart: on-failure
+    container_name: exmaple-apirest
+    build: .
+    ports:
+      - "8090:8090"
+    env_file: .env
+    networks:
+      - apirest_network
+networks:
+  apirest_network:

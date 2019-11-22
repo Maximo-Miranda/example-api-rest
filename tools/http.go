@@ -3,6 +3,7 @@ package tools
 import (
 	"net/http"
 	"encoding/json"
+	"strings"
 )
 
 // ResponseHandlers ...
@@ -29,4 +30,28 @@ func ResponseHandlers(res http.ResponseWriter, data interface{}, err interface{}
 	}
 
 	res.Write(serialized)
+}
+
+// CheckedIfKeyExist ...
+func CheckedIfKeyExist(in interface{}, fieldName string) (bool, error) {
+
+	var mapper map[string]interface{}
+
+	inSerialized, err := json.Marshal(in)
+	if err != nil {
+		return false, nil
+	}
+
+	err = json.Unmarshal(inSerialized, &mapper)
+	if err != nil {
+		return false, err
+	}
+
+	for key := range mapper {
+		if strings.ToUpper(key) == strings.ToUpper(fieldName) {
+			return true, nil
+		}
+	}
+
+	return false, nil
 }

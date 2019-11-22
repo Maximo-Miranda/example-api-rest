@@ -13,7 +13,7 @@ type User struct {
 	ID         		uuid.UUID       `gorm:"type:uuid;primary_key;" json:"id"`
 	FullName		string			`json:"full_name"`
 	Dni				string			`json:"dni"`
-	DateOfBirth		*string			`json:"date_of_birth"`
+	DateOfBirth		*string			`json:"date_of_birth,omitempty"`
 	CreatedAt		time.Time		`json:"created_at"`
 	UpdatedAt		time.Time		`json:"updated_at"`
 }
@@ -40,4 +40,23 @@ func (m *User) Save() (*User, error) {
 	}
 
 	return m, nil
+}
+
+// FirstByQuery ...
+func (m *User) FirstByQuery() (*User, error) {
+
+	user := &User{}
+
+	conn, err := tools.Connect()
+	if err != nil {
+		return user, err
+	}
+	defer conn.Close()
+
+	result := conn.First(user, m)
+	if result.Error != nil {
+		return user, result.Error
+	}
+
+	return user, nil
 }

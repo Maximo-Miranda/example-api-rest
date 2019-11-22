@@ -17,6 +17,12 @@ func StoreUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	err = validateCreateClientRequest(&model)
+	if err != nil {
+		tools.ResponseHandlers(w, nil, err, http.StatusBadRequest)
+		return
+	}
+
 	userDB, err := model.Save()
 	if err != nil {
 		tools.ResponseHandlers(w, nil, err, http.StatusInternalServerError)

@@ -6,8 +6,12 @@ Golang api rest Service
 
 ```
 
+Requirements:
+
+- Docker >= v2.1.0.5 and docker-compose
+
 1. cd example-api-rest
-2. docker-composer up --build
+2. docker-compose up --build
 
 ```
 
